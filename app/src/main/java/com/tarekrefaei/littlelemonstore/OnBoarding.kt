@@ -1,5 +1,6 @@
 package com.tarekrefaei.littlelemonstore
 
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -26,20 +28,44 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun OnBoarding() {
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+fun OnBoarding(
+    navHostController: NavHostController,
+    sharedPreferences: SharedPreferences
+) {
+    var firstName by rememberSaveable {
+        mutableStateOf(
+            sharedPreferences.getString(
+                "firstName",
+                ""
+            ) ?: ""
+        )
+    }
+    var lastName by rememberSaveable {
+        mutableStateOf(
+            sharedPreferences.getString(
+                "lastName",
+                ""
+            ) ?: ""
+        )
+    }
+    var email by rememberSaveable {
+        mutableStateOf(
+            sharedPreferences.getString(
+                "email",
+                ""
+            ) ?: ""
+        )
+    }
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val coroutineScope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
-
 
     Column(
         modifier = Modifier
@@ -124,7 +150,7 @@ fun OnBoarding() {
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
                         coroutineScope.launch {
-                            delay(50)
+                            delay(20)
                             bringIntoViewRequester.bringIntoView()
                         }
                     }
@@ -152,7 +178,15 @@ fun OnBoarding() {
                 keyboardController?.hide()
                 if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
                     Toast.makeText(context, "Registration Success", Toast.LENGTH_LONG).show()
-
+                    coroutineScope.launch {
+                        with(sharedPreferences.edit()){
+                            putString("firstName", firstName)
+                            putString("lastName", lastName)
+                            putString("email", email)
+                            apply()
+                        }
+                    }
+                    navHostController.navigate(Screens.ProfileScreen.route)
                 } else {
                     Toast.makeText(context, "Complete your Information please", Toast.LENGTH_LONG)
                         .show()
