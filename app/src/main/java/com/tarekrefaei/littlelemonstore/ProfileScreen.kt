@@ -3,15 +3,19 @@ package com.tarekrefaei.littlelemonstore
 import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -75,11 +79,14 @@ fun ProfileScreen(navController: NavHostController, sharedPreferences: SharedPre
             modifier = Modifier
                 .align(CenterHorizontally)
                 .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.primary2)
+            ),
             onClick = {
                 navController.navigate(Screens.OnBoardingScreen.route)
                 Toast.makeText(context, "Logout Success", Toast.LENGTH_LONG).show()
                 coroutineScope.launch {
-                    with(sharedPreferences.edit()){
+                    with(sharedPreferences.edit()) {
                         delay(20)
                         remove("firstName")
                         remove("lastName")
@@ -88,7 +95,9 @@ fun ProfileScreen(navController: NavHostController, sharedPreferences: SharedPre
                     }
                 }
             }) {
-            Text("Erase Data")
+            Text(
+                text = "Logout"
+            )
         }
     }
 }

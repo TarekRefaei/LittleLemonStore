@@ -8,9 +8,7 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -166,6 +164,7 @@ fun OnBoarding(
         Button(
             modifier = Modifier
                 .align(CenterHorizontally)
+                .fillMaxWidth()
                 .onFocusEvent {
                     if (it.isFocused) {
                         coroutineScope.launch {
@@ -174,12 +173,13 @@ fun OnBoarding(
                         }
                     }
                 },
+            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary2)),
             onClick = {
                 keyboardController?.hide()
                 if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
                     Toast.makeText(context, "Registration Success", Toast.LENGTH_LONG).show()
                     coroutineScope.launch {
-                        with(sharedPreferences.edit()){
+                        with(sharedPreferences.edit()) {
                             putString("firstName", firstName)
                             putString("lastName", lastName)
                             putString("email", email)
@@ -188,8 +188,11 @@ fun OnBoarding(
                     }
                     navHostController.navigate(Screens.ProfileScreen.route)
                 } else {
-                    Toast.makeText(context, "Complete your Information please", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(
+                        context,
+                        "Complete your Information please",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         ) {
