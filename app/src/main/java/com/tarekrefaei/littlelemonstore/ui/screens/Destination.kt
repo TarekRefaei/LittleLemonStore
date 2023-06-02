@@ -1,10 +1,11 @@
-package com.tarekrefaei.littlelemonstore
+package com.tarekrefaei.littlelemonstore.ui.screens
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+
 
 sealed class Screens(val route: String) {
     object HomeScreen : Screens("Home_Screen")
@@ -21,13 +22,13 @@ fun Destinations(
     NavHost(
         navController = navController,
         startDestination = if (hasData) {
-            Screens.ProfileScreen.route
+            Screens.HomeScreen.route
         } else {
             Screens.OnBoardingScreen.route
         }
     ) {
         composable(route = Screens.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen()
         }
         composable(route = Screens.ProfileScreen.route) {
             ProfileScreen(navController, sharedPreferences = sharedPreferences)

@@ -1,4 +1,4 @@
-package com.tarekrefaei.littlelemonstore
+package com.tarekrefaei.littlelemonstore.ui.screens
 
 import android.content.SharedPreferences
 import android.widget.Toast
@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.tarekrefaei.littlelemonstore.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -173,7 +174,9 @@ fun OnBoarding(
                         }
                     }
                 },
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary2)),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.primary2)
+            ),
             onClick = {
                 keyboardController?.hide()
                 if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {

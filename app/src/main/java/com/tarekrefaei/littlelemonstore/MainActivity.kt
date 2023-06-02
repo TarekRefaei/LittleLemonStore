@@ -5,8 +5,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
+import com.tarekrefaei.littlelemonstore.ui.screens.Destinations
 import com.tarekrefaei.littlelemonstore.ui.theme.LittleLemonStoreTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var sharedPrefs: SharedPreferences
