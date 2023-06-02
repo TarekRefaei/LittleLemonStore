@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.tarekrefaei.littlelemonstore.R
@@ -38,7 +39,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
-    viewModel: RestaurantViewModel = hiltViewModel()
+    viewModel: RestaurantViewModel = hiltViewModel(),
+    navHostController: NavHostController,
 ) {
     val state = viewModel.state
 
@@ -46,7 +48,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        MainHeader()
+        MainHeader(navHostController)
         RestaurantCard()
         Categories(state = state, viewModel = viewModel)
         MenuListItems(state = state)
@@ -204,7 +206,7 @@ fun RestaurantCard() {
 }
 
 @Composable
-fun MainHeader() {
+fun MainHeader(navHostController: NavHostController) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -230,7 +232,10 @@ fun MainHeader() {
             contentDescription = "Little Lemon Logo",
             modifier = Modifier
                 .weight(0.15f)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .clickable {
+                    navHostController.navigate(Screens.ProfileScreen.route)
+                },
             contentScale = ContentScale.Fit
         )
     }

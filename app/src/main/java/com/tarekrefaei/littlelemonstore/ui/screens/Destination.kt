@@ -28,7 +28,7 @@ fun Destinations(
         }
     ) {
         composable(route = Screens.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(navHostController = navController)
         }
         composable(route = Screens.ProfileScreen.route) {
             ProfileScreen(navController, sharedPreferences = sharedPreferences)
