@@ -189,7 +189,7 @@ fun OnBoarding(
                             apply()
                         }
                     }
-                    navHostController.navigate(Screens.ProfileScreen.route)
+                    navHostController.navigate(Screens.HomeScreen.route)
                 } else {
                     Toast.makeText(
                         context,
